@@ -4,72 +4,146 @@
  * - Obtener el listado de todos los pokemons ✅
  * - Obtener todos los pokemons individuales uno por uno ✅
  * - Para obtener todos los pokemons, me dice el ejercicio que debo iterar uno por uno. ✅
- * - Añadir al DOM los pokemons, dentro del div pokedex.
- */
 
- const pokedex$$ = document.querySelector('#pokedex');
- const ALL_POKEMONS_INFO = []; // Cuando una variable se declara en scope global para ser usada por otros, se hace en mayúsculas.
+ */
+/**Filtros por nombre
+Filtros por ID
+Filtros por tipo
+Renderizar los 2 tipos
+*/
+
+ const pokedex$$ = document.querySelector("#pokedex");
+ const searchInput$$ = document.querySelector(".search-container input");
+ const ALL_POKEMONS_INFO = [];
  
- function getAllPokemons() {
-   return fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
+ const getAllPokemons = () =>
+   fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
      .then((response) => response.json())
-     .then((response) => {
-       return response.results;
-     })
-     .catch((error) => console.log('Error obteniendo todos los pokemons', error));
- }
+     .then((response) => response.results)
+     .catch((error) => console.log("Error obteniendo todos los pokemons", error));
  
- function getOnePokemon(url) {
-   return fetch(url)
-     .then((response) => response.json())
-     .then((response) => {
-       return response;
-     })
-     .catch((error) => console.log('Error obteniendo pokemon individual', error));
- }
+ const getOnePokemon = async (url) => {
+   try {
+     const response = await fetch(url);
+     const result = await response.json();
  
- function renderPokemons(pokemons) {
-     pokemons.forEach(function(poke) {
-       const li$$ = document.createElement('li');
-       li$$.classList.add('card');
-     
-       const img$$ = document.createElement('img');
-       img$$.src = poke.sprites.front_default;
-       img$$.alt = poke.name;
-     
-       const p$$ = document.createElement('p');
-       p$$.classList.add('card-title');
-       p$$.textContent = poke.name;
-     
-       const div$$ = document.createElement('div');
-       div$$.classList.add('card-subtitle');
-       div$$.textContent = poke.types[0].type.name;
-     
-       li$$.appendChild(img$$);
-       li$$.appendChild(p$$);
-       li$$.appendChild(div$$);
-     
-       pokedex$$.appendChild(li$$);
+     const pokemon = {
+       name: result.name,
+       id: result.id,
+       types: result.types.map((element) => element.type.name),
+       image: result.sprites.front_default,
+       abilities: result.abilities[0].ability.name
+       
+     };
+     return pokemon;
+   } catch (error) {
+     console.log("Error obteniendo pokemon " + url, error);
+   }
+ };
+ 
+ const renderTypes = (types, container) => {
+   const div$$ = document.createElement("div");
+   div$$.classList.add("card-subtitle", "types-container");
+ 
+   types.forEach((type) => {
+     const typeContainer$$ = document.createElement("p");
+     typeContainer$$.setAttribute("pokemon-type", type);
+     typeContainer$$.style.backgroundColor = typeColors[type];
+     typeContainer$$.classList.add("type");
+     typeContainer$$.textContent = type;
+     typeContainer$$.addEventListener("click", () => {
+       searchInput$$.setAttribute("value", type);
+       search(type);
      });
+     div$$.appendChild(typeContainer$$);
+   });
  
- }
+   container.appendChild(div$$);
+ };
  
- // Director de orquesta: irá llamando a otras funciones.
- async function arrancar() {
-   console.log('Ejecuntando peticiones pokedex...');
+ const cleanPokedex = () => (pokedex$$.innerHTML = "");
  
-   const allPokemons = await getAllPokemons(); // array de objetos con name y url por cada pokemon
-   // console.log('allPokemons:', allPokemons)
+ const renderNoResults = () => {
+   const li$$ = document.createElement("li");
+ 
+   const p$$ = document.createElement("p");
+   p$$.classList.add("card-title");
+   p$$.textContent = "No se encuentran resultados";
+ 
+   li$$.appendChild(p$$);
+   pokedex$$.appendChild(li$$);
+ };
+ 
+ const renderPokemonCard = (poke) => {
+   const li$$ = document.createElement("li");
+   li$$.classList.add("card");
+  console.log(poke);
+   const img$$ = document.createElement("img");
+   img$$.src = poke.image;
+   img$$.alt = poke.name;
+ 
+   const p$$ = document.createElement("p");
+   p$$.classList.add("card-title");
+   p$$.textContent = poke.name;
+
+   const p2$$ = document.createElement("p");
+   p2$$.classList.add("card-subtitle");
+   p2$$.textContent = "Ability: " + poke.abilities;
    
-   // Itero por el array de pokemons, llamo a getOnePokemon una vez
-   // por cada pokemon, pasándole la url de cada pokemon.
-   for(const pokemon of allPokemons) { 
-     // Pido a la api la información de cada pokemon individual y la guardo en una variable
+
+ 
+ 
+   const divId$$ = document.createElement("div");
+   divId$$.classList.add("card-subtitle");
+   divId$$.textContent = "ID: " + poke.id;
+ 
+
+   
+   li$$.appendChild(img$$);
+   li$$.appendChild(p$$);
+   li$$.appendChild(divId$$);
+   li$$.appendChild(p2$$);
+ 
+   renderTypes(poke.types, li$$);
+ 
+   pokedex$$.appendChild(li$$);
+ };
+ 
+ const renderPokemons = (pokemons) => {
+   cleanPokedex();
+   if (!pokemons.length) renderNoResults();
+   pokemons.forEach((pokemon) => renderPokemonCard(pokemon));
+ };
+ 
+ const search = (value) => {
+   const filtered = ALL_POKEMONS_INFO.filter((pokemon) => {
+     const matchName = pokemon.name.includes(value);
+     const matchId = pokemon.id == value;
+     const matchType = pokemon.types.includes(value);
+ 
+     return matchName || matchId || matchType;
+   });
+   renderPokemons(filtered);
+   
+    
+   console.log(filtered);
+ };
+  
+ const addEventsListeners = () => {
+   searchInput$$.addEventListener("input", (event) => {
+     search(event.target.value);
+   });
+ };
+ 
+ const arrancar = async () => {
+   addEventsListeners();
+   const allPokemons = await getAllPokemons();
+ 
+   for (const pokemon of allPokemons) {
      const pokemonIndividualInfo = await getOnePokemon(pokemon.url);
      ALL_POKEMONS_INFO.push(pokemonIndividualInfo);
-   };
- 
-   console.log('ALL_POKEMONS_INFO', ALL_POKEMONS_INFO);
+   }
+   console.log("ALL_POKEMONS_INFO", ALL_POKEMONS_INFO);
    renderPokemons(ALL_POKEMONS_INFO);
  };
  
