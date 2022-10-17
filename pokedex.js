@@ -33,7 +33,7 @@ Renderizar los 2 tipos
        types: result.types.map((element) => element.type.name),
        image: result.sprites.front_default,
        abilities: result.abilities[0].ability.name
-       
+
      };
      return pokemon;
    } catch (error) {
@@ -86,9 +86,9 @@ Renderizar los 2 tipos
    p$$.classList.add("card-title");
    p$$.textContent = poke.name;
 
-   const p2$$ = document.createElement("p");
-   p2$$.classList.add("card-subtitle");
-   p2$$.textContent = "Ability: " + poke.abilities;
+   const pAbilities$$ = document.createElement("p");
+   pAbilities$$.classList.add("card-subtitle");
+   pAbilities$$.textContent = "Ability: " + poke.abilities;
    
 
  
@@ -102,7 +102,7 @@ Renderizar los 2 tipos
    li$$.appendChild(img$$);
    li$$.appendChild(p$$);
    li$$.appendChild(divId$$);
-   li$$.appendChild(p2$$);
+   li$$.appendChild(pAbilities$$);
  
    renderTypes(poke.types, li$$);
  
