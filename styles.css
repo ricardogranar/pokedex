@@ -1,7 +1,7 @@
 body {
   background-color: rgb(75, 75, 75);
   margin: 0;
-  font-family: sans-serif;
+  font-family: 'Bungee Spice', cursive;
   color: white;
 }
 
@@ -220,6 +220,3 @@ body {
   color: rgb(255, 255, 255);
   font-size: 18px;
 }
-
-
-
