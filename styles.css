@@ -11,12 +11,10 @@ body {
 }
 .logoPokedex {
   margin: 80px 0;
- display: flex;
- align-items: center;
- justify-content: center;
- 
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 
 .search-container {
   margin: 70px 0px;
@@ -32,29 +30,17 @@ body {
   text-transform: uppercase;
 }
 
-.card {
-  list-style: none;
-  padding: 40px;
-  background-color: #000000;
-  opacity: 0,3;
-  color: rgb(255, 255, 255);
-  text-align: center;
-  border-radius: 6%;
-}
 .card-title {
   text-transform: uppercase;
   font-size: 32px;
   font-weight: normal;
-  margin-bottom: 0;
 }
 .card-subtitle {
   font-weight: lighter;
   color: #666;
-  margin-top: 5px;
+  z-index: 1;
 }
-.card-image {
-  height: 400px;
-}
+
 #pokedex {
   padding-inline-start: 0;
   display: grid;
@@ -62,7 +48,6 @@ body {
   grid-gap: 20px;
 }
 .card:hover {
-  trans
   animation: bounce 0.5s linear;
 }
 
@@ -95,8 +80,9 @@ body {
   }
 }
 
-
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -106,7 +92,7 @@ body {
   position: absolute;
   top: 18%;
   left: 20%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
 /* Poké Styles */
 .pokeball {
@@ -118,12 +104,11 @@ body {
   border-radius: 50%;
   overflow: hidden;
   box-shadow: inset -git10px 10px 0 10px #ccc;
-  animation: fall .25s ease-in-out,
-             shake 1.25s cubic-bezier(.36,.07,.19,.97) 3;
+  animation: fall 0.25s ease-in-out, shake 1.25s cubic-bezier(0.36, 0.07, 0.19, 0.97) 3;
 }
 .pokeball::before,
 .pokeball::after {
-  content:"";
+  content: "";
   position: absolute;
 }
 .pokeball::before {
@@ -148,24 +133,83 @@ body {
   border-radius: 50%;
   z-index: 10;
   box-shadow: 0 0 0 10px black;
-  animation: blink .5s alternate 7;
+  animation: blink 0.5s alternate 7;
 }
 /* Animation */
 @keyframes blink {
-  from { background: #eee;}
-  to { background: #e74c3c; }
+  from {
+    background: #eee;
+  }
+  to {
+    background: #e74c3c;
+  }
 }
-@keyframes shake {
-  0 { transform: translate(0, 0) rotate(0); }
-  20% { transform: translate(-10px, 0) rotate(-20deg); }
-  30% { transform: translate(10px, 0) rotate(20deg); }
-  50% { transform: translate(-10px, 0) rotate(-10deg); }
-  60% { transform: translate(10px, 0) rotate(10deg); }
-  100% { transform: translate(0, 0) rotate(0); }
-}
+
 @keyframes fall {
-  0% { top: -200px }
-  60% { top: 0 }
-  80% { top: -20px }
-  100% { top: 0 }
+  0% {
+    top: -200px;
+  }
+  60% {
+    top: 0;
+  }
+  80% {
+    top: -20px;
+  }
+  100% {
+    top: 0;
+  }
+}
+
+/* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card {
+  background-color: transparent;
+  width: 300px;
+  height: 340px;
+  cursor: pointer;
+  perspective: 1000px;
+  object-fit: cover;
+}
+
+.flip-card img {
+  width: 50%;
+  object-fit: cover;
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front,
+.flip-card-back {
+  border-radius: 6%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+  background-color: rgb(0, 0, 0);
+  color: red;
+}
+
+/* Style the back side */
+.flip-card-back {
+  background-color: black;
+  color: white;
+  transform: rotateY(180deg);
 }
