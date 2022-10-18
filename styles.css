@@ -1,7 +1,7 @@
 body {
-  background-color: rgb(0, 68, 255);
+  background-color: rgb(75, 75, 75);
   margin: 0;
-  font-family: rubik;
+  font-family: sans-serif;
   color: white;
 }
 
@@ -169,6 +169,7 @@ body {
   perspective: 1000px;
   object-fit: cover;
 }
+}
 
 .flip-card img {
   width: 50%;
@@ -203,18 +204,22 @@ body {
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
-  background-color: rgb(0, 0, 0);
-  color: red;
+  background-color: rgb(136, 136, 136);
+  color: rgb(255, 255, 255);
 }
 
 /* Style the back side */
 .flip-card-back {
-  background-color: black;
+  background-color: rgb(9, 2, 231);
   color: white;
   transform: rotateY(180deg);
+  border: rgb(255,224,49) 3px solid;
 }
 
 .card-stats {
-  color: red;
+  color: rgb(255, 255, 255);
   font-size: 18px;
 }
+
+
+
