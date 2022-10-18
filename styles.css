@@ -213,3 +213,8 @@ body {
   color: white;
   transform: rotateY(180deg);
 }
+
+.card-stats {
+  color: red;
+  font-size: 18px;
+}

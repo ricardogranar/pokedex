@@ -20,6 +20,8 @@ const getOnePokemon = async (url) => {
       image: result.sprites.front_default,
       backImg: result.sprites?.back_default,
       abilities: result.abilities[0].ability.name,
+      weight: result.weight,
+      height: result.height,
     };
   } catch (error) {}
 };
@@ -79,17 +81,27 @@ const renderPokemonCard = (poke) => {
   p$$.textContent = poke.name;
 
   const pAbilities$$ = document.createElement("p");
-  pAbilities$$.classList.add("card-subtitle");
-  pAbilities$$.textContent = "Ability: " + poke.abilities;
+  pAbilities$$.classList.add("card-stats");
+  pAbilities$$.textContent = `Ability: ${poke.abilities}`;
+
+  const pWidth$$ = document.createElement("p");
+  pWidth$$.classList.add("card-stats");
+  pWidth$$.textContent = `Weight: ${poke.weight} cm`;
+
+  const pHeight$$ = document.createElement("p");
+  pHeight$$.classList.add("card-stats");
+  pHeight$$.textContent = `Height: ${poke.height} kg`;
 
   const divId$$ = document.createElement("div");
   divId$$.classList.add("card-subtitle");
-  divId$$.textContent = "ID: " + poke.id;
+  divId$$.textContent = `ID: ${poke.id}`;
 
   flipCardFront$$.appendChild(img$$);
   flipCardFront$$.appendChild(p$$);
   flipCardFront$$.appendChild(divId$$);
   flipCardBack$$.appendChild(pAbilities$$);
+  flipCardBack$$.appendChild(pWidth$$);
+  flipCardBack$$.appendChild(pHeight$$);
   flipCardFront$$.appendChild(divId$$);
 
   flipCard$$.appendChild(flipCardInner$$);
