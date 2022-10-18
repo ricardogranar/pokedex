@@ -1,16 +1,3 @@
-/**
- * Requisitos 
- * - Obtener lista pokedex y guardar en variable ✅
- * - Obtener el listado de todos los pokemons ✅
- * - Obtener todos los pokemons individuales uno por uno ✅
- * - Para obtener todos los pokemons, me dice el ejercicio que debo iterar uno por uno. ✅
-
- */
-/**Filtros por nombre
-Filtros por ID
-Filtros por tipo
-Renderizar los 2 tipos
-*/
 
  const pokedex$$ = document.querySelector("#pokedex");
  const searchInput$$ = document.querySelector(".search-container input");
@@ -90,9 +77,6 @@ Renderizar los 2 tipos
    pAbilities$$.classList.add("card-subtitle");
    pAbilities$$.textContent = "Ability: " + poke.abilities;
    
-
- 
- 
    const divId$$ = document.createElement("div");
    divId$$.classList.add("card-subtitle");
    divId$$.textContent = "ID: " + poke.id;
