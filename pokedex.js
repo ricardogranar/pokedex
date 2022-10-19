@@ -2,12 +2,15 @@ const pokedex$$ = document.querySelector("#pokedex");
 const searchInput$$ = document.querySelector(".search-container input");
 const ALL_POKEMONS_INFO = [];
 
+// una función que hace un fetch a la api y recuperamos los 150 primeros pokemons.
 const getAllPokemons = () =>
   fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
     .then((response) => response.json())
     .then((response) => response.results)
     .catch((error) => console.log("Error obteniendo todos los pokemons", error));
 
+    // una función que nos permite recuperar los pokemons individualemente, con los
+    //parametros que nosotros queramos usar en nuestra app.
 const getOnePokemon = async (url) => {
   try {
     const response = await fetch(url);
@@ -26,7 +29,8 @@ const getOnePokemon = async (url) => {
   } catch (error) {}
 };
 
-const renderTypes = (types, container) => {
+// una función para renderizarlos por los pokemon por tipo.
+ const renderTypes = (types, container) => {
   const div$$ = document.createElement("div");
   div$$.classList.add("card-subtitle", "types-container");
 
@@ -45,11 +49,12 @@ const renderTypes = (types, container) => {
 
   container.appendChild(div$$);
 };
-
+ //Función que vacía la pokedex 
 const cleanPokedex = () => (pokedex$$.innerHTML = "");
-
+//Función que nos muestra un mensaje si no existe ningun pokemon que coincida con el parametro 
+//de busqueda.
 const renderNoResults = () => {
-  const li$$ = document.createElement("li");
+  const li$$ = document.createElement("span");
 
   const p$$ = document.createElement("p");
   p$$.classList.add("card-title");
@@ -58,7 +63,8 @@ const renderNoResults = () => {
   li$$.appendChild(p$$);
   pokedex$$.appendChild(li$$);
 };
-
+//Función a la que pasamos como parametro un pokemon y lo renderiza su carta.
+//También añade unas clases que nos permiten con css añadir el efecto de flip card.
 const renderPokemonCard = (poke) => {
   const flipCard$$ = document.createElement("div");
   flipCard$$.classList.add("flip-card");
@@ -113,12 +119,18 @@ const renderPokemonCard = (poke) => {
   pokedex$$.appendChild(flipCard$$);
 };
 
+//Creamos una función a lo que les pasamos los pokemons como parametro y los 
+//renderiza en caso de que existan o muestran un mensaje de error en caso de que no 
+//existan.
 const renderPokemons = (pokemons) => {
   cleanPokedex();
   if (!pokemons.length) renderNoResults();
   pokemons.forEach((pokemon) => renderPokemonCard(pokemon));
 };
 
+// Es una función de busqueda a la que asignamos los parametros que queremos
+//que nos busque. Y llama a la función anterior renderPokemons para renderizar
+//los resultados de las busqueda.
 const search = (value) => {
   const filtered = ALL_POKEMONS_INFO.filter((pokemon) => {
     const matchName = pokemon.name.includes(value);
@@ -132,12 +144,16 @@ const search = (value) => {
   console.log(filtered);
 };
 
+//Añadimos un evento al input para recoger el valor que se añade en el input
+//el valor de busqueda y pasarselo como parametro a la función search.
 const addEventsListeners = () => {
   searchInput$$.addEventListener("input", (event) => {
     search(event.target.value);
   });
 };
 
+//la función que nos carga la galeria completa de pokemons cada vez que se abre la
+//aplicación.
 const arrancar = async () => {
   addEventsListeners();
   const allPokemons = await getAllPokemons();

@@ -17,7 +17,9 @@ body {
 }
 
 .gameboy {
-  position: relative;
+  position: absolute;
+  top: 10%;
+  right: 10%;
   width: 200px;
   height: 200px;
 }
@@ -194,14 +196,14 @@ body {
 
 /* Style the front side (fallback if image is missing) */
 .flip-card-front {
-  background-color: rgb(136, 136, 136);
+  background-color: rgb(195, 237, 195);
   color: rgb(255, 255, 255);
   border: rgb(0, 0, 0) 8px solid;
 }
 
 /* Style the back side */
 .flip-card-back {
-  background-color: rgb(9, 2, 231);
+  background-color: rgb(13, 13, 13);
   color: white;
   transform: rotateY(180deg);
   border: rgb(255,224,49) 3px solid;
