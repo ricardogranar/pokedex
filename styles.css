@@ -16,6 +16,11 @@ body {
   justify-content: center;
 }
 
+.gameboy {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
 .search-container {
   margin: 70px 0px;
   text-align: center;
@@ -47,9 +52,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   grid-gap: 20px;
 }
-.card:hover {
-  animation: bounce 0.5s linear;
-}
+
 
 .types-container {
   display: flex;
@@ -65,21 +68,6 @@ body {
   cursor: pointer;
 }
 
-@keyframes bounce {
-  20% {
-    transform: translateY(-6px);
-  }
-  40% {
-    transform: translateY(0px);
-  }
-  60% {
-    transform: translateY(-2px);
-  }
-  80% {
-    transform: translateY(-0px);
-  }
-}
-
 *,
 *:before,
 *:after {
@@ -88,7 +76,7 @@ body {
   box-sizing: border-box;
 }
 
-.center-on-page {
+.left-on-page {
   position: absolute;
   top: 18%;
   left: 20%;
@@ -169,7 +157,7 @@ body {
   perspective: 1000px;
   object-fit: cover;
 }
-}
+
 
 .flip-card img {
   width: 50%;
